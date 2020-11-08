@@ -1251,8 +1251,7 @@
             var row = both[0];
             var col = both[1];
 
-            //   alert(row);
-            //  alert(col);
+
 
 
             if (row == 11) {
@@ -1261,7 +1260,7 @@
 
                 var val1 = document.getElementById("11" + "_" + col).value;
                 document.getElementById("6" + "_" + reflectedCol).value = val1;
-                setCookie("6" + "_" + reflectedCol, val1, 100);
+                // setCookie("6" + "_" + reflectedCol, val1, 100);
 
             }
 
@@ -1277,7 +1276,7 @@
                 var sum = Number(val1) - Number(val2) - Number(val3);
 
                 document.getElementById("9" + "_" + col).value = sum;
-                setCookie("9" + "_" + col, sum, 100);
+                //setCookie("9" + "_" + col, sum, 100);
             }
 
 
@@ -1289,12 +1288,12 @@
                 var sum = Number(val1) + Number(val2);
 
                 document.getElementById("11" + "_" + col).value = sum;
-                setCookie("11" + "_" + col, sum, 100);
+                //setCookie("11" + "_" + col, sum, 100);
 
                 var nextcol = Number(col) + Number(1);
 
                 document.getElementById("6" + "_" + nextcol).value = sum;
-                setCookie("6" + "_" + nextcol, sum, 100);
+                // setCookie("6" + "_" + nextcol, sum, 100);
 
 
 
@@ -1305,7 +1304,7 @@
                 var sum2 = Number(previous_tot_canada) - sum;
 
                 document.getElementById("12" + "_" + col).value = sum2;
-                setCookie("12" + "_" + col, sum2, 100);
+                //setCookie("12" + "_" + col, sum2, 100);
 
             }
 
@@ -1325,7 +1324,7 @@
                 //  alert(sum);
 
                 document.getElementById("15" + "_" + col).value = sum;
-                setCookie("15" + "_" + col, sum, 100);
+                // setCookie("15" + "_" + col, sum, 100);
 
             }
 
@@ -1341,11 +1340,11 @@
                 var nextCol = Number(col) + Number(1);
 
                 document.getElementById("21" + "_" + col).value = sum;
-                setCookie("21" + "_" + col, sum, 100);
+                //setCookie("21" + "_" + col, sum, 100);
 
 
                 document.getElementById("17" + "_" + nextCol).value = sum;
-                setCookie("17" + "_" + nextCol, sum, 100);
+                //setCookie("17" + "_" + nextCol, sum, 100);
 
             }
 
@@ -1397,13 +1396,6 @@
         var table = document.getElementById("dashboard_table");
 
         for (var i = 0, row; row = table.rows[i]; i++) {
-
-
-
-
-
-
-
             for (var j = 0, col; col = row.cells[j]; j++) {
 
 
@@ -1420,19 +1412,9 @@
                 try {
 
                     var t = col.children[0];
-
-
-
-
                     t.readOnly = true;
-
-
                     t.addEventListener('change', myFunction, false);
-
-
-
                     t.style.border = "none";
-                    //  t.style.background = "transparent";
                     t.style.textAlign = "right";
 
                     if (i == 4) {
@@ -1466,10 +1448,10 @@
 
                     //check and set cookie value to this text input
 
-                    if (!t.value) {
-                        var v = getCookie(t.id);
-                        t.value = v;
-                    }
+                    //if (!t.value) {
+                    //    var v = getCookie(t.id);
+                    //    t.value = v;
+                    //}
 
                 }
                 catch (err) {
