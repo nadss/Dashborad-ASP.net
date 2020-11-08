@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    
 
     <style>
         table {
@@ -25,6 +25,33 @@
     </style>
 
     <script type="text/javascript">
+
+        var fileName = "";
+        var idArray = [];
+
+
+      
+
+
+        function PrintElem(elem) {
+            var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+            mywindow.document.write('<html><head><title>' + document.title + '</title>');
+            mywindow.document.write('</head><body >');
+            mywindow.document.write('<h1>' + document.title + '</h1>');
+            mywindow.document.write(document.getElementById(elem).innerHTML);
+            mywindow.document.write('</body></html>');
+
+            mywindow.document.close(); // necessary for IE >= 10
+            mywindow.focus(); // necessary for IE >= 10*/
+
+            mywindow.print();
+            mywindow.close();
+
+            return true;
+        }
+
+
         function setCookie(name, value, days) {
             var expires = "";
             if (days) {
@@ -45,14 +72,18 @@
             return null;
         }
 
+        
+
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
+       
+
         function removeCommas(x) {
 
             var total = parseFloat(x.replace(/,/g, ''));
-            
+
 
             if (isNaN(total)) {
                 return 0;
@@ -77,6 +108,78 @@
             deleteAllCookies();
 
             location.reload();
+
+        }
+
+        function FileNameInputPrompt() {
+
+            var inputfilename = prompt("Please Enter Save Name", "filename1");
+            if (inputfilename != null) {
+                this.fileName = inputfilename;
+
+                let csvContent = "data:text/csv;charset=utf-8,";
+
+                
+
+
+                var i;
+                for (i = 0; i < idArray.length; i++) {
+
+                    if (idArray[i].split("_")[1] == "0") { continue;}
+
+                    var valuev = document.getElementById(idArray[i]).value;
+
+                    var rowValue = idArray[i] + "," + valuev;
+
+                    //alert(rowValue);
+
+                    csvContent += rowValue + "\r\n";
+                }
+
+
+                //for (var i = 0, row; row = table.rows[i]; i++) {
+                //    for (var j = 0, col; col = row.cells[j]; j++) {
+
+                //        alert(i + " " + j);
+
+                //        //if (j != 0) {
+
+                //        //    try {
+
+                //        //        var t = col.children[0];
+
+
+                //        //        row = t.id + "," + t.value;
+
+                //        //        alert(row);
+
+                //        //      //  csvContent += row + "\r\n";
+
+
+
+                //        //    }
+                //        //    catch (err) {
+
+                //        //        alert(err);
+                //        //    }
+                //        //}
+                //    }
+                //}
+
+               // alert(csvContent);
+
+                var downloadFile = inputfilename + ".csv";
+
+                var encodedUri = encodeURI(csvContent);
+                var link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", downloadFile);
+                document.body.appendChild(link); // Required for FF
+
+                link.click();
+            }
+
+
 
         }
 
@@ -160,7 +263,7 @@
                 //  alert(val3);
 
 
-                
+
 
                 var sum = Number(removeCommas(val1)) + Number(removeCommas(val2)) + Number(removeCommas(val3));
                 //  alert(sum);
@@ -233,14 +336,39 @@
             this.value = numberWithCommas(this.value);
         }
 
+        function readSingleFile(e) {
+            alert("test1");
+            var file = e.target.files[0];
+            if (!file) {
+                return;
+            }
+            alert("test2");
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var contents = e.target.result;
+                displayContents(contents);
+            };
+            reader.readAsText(file);
+        }
+
+        function displayContents(contents) {
+            var element = document.getElementById('file-content');
+            element.textContent = contents;
+        }
+
     </script>
 
 </head>
 <body style="font-family: Arial, Helvetica, sans-serif">
     <form id="form1" runat="server">
         <div>
-            <input id="Button1" type="button" value="Clear" onclick="clearButtonClicked()" />
-            <input id="Button1" type="button" value="Print Preview" />
+            <input id="Button1" type="button" value="New" onclick="clearButtonClicked()" />
+            <input type="file" id="file-input" />
+            <pre id="file-content"></pre>
+            <input id="Button3" type="button" value="Save" onclick="FileNameInputPrompt()" />
+            <input id="Button4" type="button" value="Print Preview" onclick="PritTable()" />
+
+
 
 
             <table id="dashboard_table">
@@ -1410,6 +1538,9 @@
 
     <script>
 
+        
+
+
         var table = document.getElementById("dashboard_table");
 
         for (var i = 0, row; row = table.rows[i]; i++) {
@@ -1459,7 +1590,10 @@
                     //    t.style.backgroundColor = "#FDF9F8";
                     //}
 
-                    t.id = i + "_" + j;
+                    var currentId = i + "_" + j;
+
+                    this.idArray.push(currentId);
+                    t.id = currentId;
                     if (j != 0) { t.style.width = "100px"; }
                     else {
                         t.style.width = "250px";
@@ -1554,7 +1688,8 @@
         }
 
 
-
+        document.getElementById('file-input')
+            .addEventListener('change', readSingleFile, false);
 
     </script>
 
