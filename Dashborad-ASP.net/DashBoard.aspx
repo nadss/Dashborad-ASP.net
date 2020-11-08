@@ -49,6 +49,19 @@
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
+        function removeCommas(x) {
+
+            var total = parseFloat(x.replace(/,/g, ''));
+            
+
+            if (isNaN(total)) {
+                return 0;
+            }
+            else {
+                return total;
+            }
+        }
+
         function deleteAllCookies() {
             var cookies = document.cookie.split(";");
 
@@ -65,6 +78,159 @@
 
             location.reload();
 
+        }
+
+        function myFunction() {
+
+
+            var both = this.id.split("_");
+            var row = both[0];
+            var col = both[1];
+
+
+
+
+            if (row == 11) {
+
+                var reflectedCol = Number(col) + Number(1);
+
+                var val1 = document.getElementById("11" + "_" + col).value;
+                document.getElementById("6" + "_" + reflectedCol).value = numberWithCommas(val1);
+                // setCookie("6" + "_" + reflectedCol, val1, 100);
+
+            }
+
+
+            if (row == 6 || row == 7 || row == 8) {
+
+                var val1 = document.getElementById("6" + "_" + col).value;
+
+                var val2 = document.getElementById("7" + "_" + col).value;
+
+                var val3 = document.getElementById("8" + "_" + col).value;
+
+
+
+
+                var sum = Number(removeCommas(val1)) - Number(removeCommas(val2)) - Number(removeCommas(val3));
+
+                document.getElementById("9" + "_" + col).value = numberWithCommas(sum);
+                //setCookie("9" + "_" + col, sum, 100);
+            }
+
+
+            if (row == 9 || row == 10) {
+                var val1 = document.getElementById("9" + "_" + col).value;
+
+                var val2 = document.getElementById("10" + "_" + col).value;
+
+                var sum = Number(removeCommas(val1)) + Number(removeCommas(val2));
+
+                document.getElementById("11" + "_" + col).value = numberWithCommas(sum);
+                //setCookie("11" + "_" + col, sum, 100);
+
+                var nextcol = Number(col) + Number(1);
+
+                document.getElementById("6" + "_" + nextcol).value = numberWithCommas(sum);
+                // setCookie("6" + "_" + nextcol, sum, 100);
+
+
+
+                var col2 = Number(col) - Number(1);
+
+                var previous_tot_canada = document.getElementById("11" + "_" + col2).value;
+
+                var sum2 = Number(removeCommas(previous_tot_canada)) - sum;
+
+                document.getElementById("12" + "_" + col).value = numberWithCommas(sum2);
+                //setCookie("12" + "_" + col, sum2, 100);
+
+            }
+
+
+            if (row == 11 || row == 13 || row == 14) {
+
+                //values of each cell
+
+                var val1 = document.getElementById("11" + "_" + col).value;
+                //  alert(val1);
+                var val2 = document.getElementById("13" + "_" + col).value;
+                //   alert(val2);
+                var val3 = document.getElementById("14" + "_" + col).value;
+                //  alert(val3);
+
+
+                
+
+                var sum = Number(removeCommas(val1)) + Number(removeCommas(val2)) + Number(removeCommas(val3));
+                //  alert(sum);
+
+                document.getElementById("15" + "_" + col).value = numberWithCommas(sum);
+                // setCookie("15" + "_" + col, sum, 100);
+
+            }
+
+            if (row == 17 || row == 18 || row == 19 || row == 20) {
+
+                var val1 = document.getElementById("17" + "_" + col).value;
+                var val2 = document.getElementById("18" + "_" + col).value;
+                var val3 = document.getElementById("19" + "_" + col).value;
+                var val4 = document.getElementById("20" + "_" + col).value;
+
+                var sum = Number(removeCommas(val1)) + Number(removeCommas(val2)) + Number(removeCommas(val3)) + Number(removeCommas(val4));
+
+                var nextCol = Number(col) + Number(1);
+
+                document.getElementById("21" + "_" + col).value = numberWithCommas(sum);
+                //setCookie("21" + "_" + col, sum, 100);
+
+
+                document.getElementById("17" + "_" + nextCol).value = numberWithCommas(sum);
+                //setCookie("17" + "_" + nextCol, sum, 100);
+
+            }
+
+
+
+            //update avarages
+
+            //
+            for (var i = 0, row; row = table.rows[i]; i++) {
+
+                if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 16) { continue; }
+
+
+                var sum_avg = 0;
+
+                for (var j = 0, col; col = row.cells[j]; j++) {
+
+                    if (j == 0) { continue; }
+
+                    var t = col.children[0];
+
+
+                    if (j != 14) {
+
+                        sum_avg = Number(sum_avg) + Number(removeCommas(t.value));
+                    }
+                    else {
+
+                        sum_avg = Number(sum_avg) / Number(13);
+
+                        t.value = sum_avg.toFixed(2);
+                        // setCookie()
+                    }
+
+
+
+                }
+            }
+
+
+
+            setCookie(this.id, this.value, 100);
+
+            this.value = numberWithCommas(this.value);
         }
 
     </script>
@@ -1244,163 +1410,17 @@
 
     <script>
 
-        function myFunction() {
-
-
-            var both = this.id.split("_");
-            var row = both[0];
-            var col = both[1];
-
-
-
-
-            if (row == 11) {
-
-                var reflectedCol = Number(col) + Number(1);
-
-                var val1 = document.getElementById("11" + "_" + col).value;
-                document.getElementById("6" + "_" + reflectedCol).value = val1;
-                // setCookie("6" + "_" + reflectedCol, val1, 100);
-
-            }
-
-
-            if (row == 6 || row == 7 || row == 8) {
-
-                var val1 = document.getElementById("6" + "_" + col).value;
-
-                var val2 = document.getElementById("7" + "_" + col).value;
-
-                var val3 = document.getElementById("8" + "_" + col).value;
-
-                var sum = Number(val1) - Number(val2) - Number(val3);
-
-                document.getElementById("9" + "_" + col).value = sum;
-                //setCookie("9" + "_" + col, sum, 100);
-            }
-
-
-            if (row == 9 || row == 10) {
-                var val1 = document.getElementById("9" + "_" + col).value;
-
-                var val2 = document.getElementById("10" + "_" + col).value;
-
-                var sum = Number(val1) + Number(val2);
-
-                document.getElementById("11" + "_" + col).value = sum;
-                //setCookie("11" + "_" + col, sum, 100);
-
-                var nextcol = Number(col) + Number(1);
-
-                document.getElementById("6" + "_" + nextcol).value = sum;
-                // setCookie("6" + "_" + nextcol, sum, 100);
-
-
-
-                var col2 = Number(col) - Number(1);
-
-                var previous_tot_canada = document.getElementById("11" + "_" + col2).value;
-
-                var sum2 = Number(previous_tot_canada) - sum;
-
-                document.getElementById("12" + "_" + col).value = sum2;
-                //setCookie("12" + "_" + col, sum2, 100);
-
-            }
-
-
-            if (row == 11 || row == 13 || row == 14) {
-
-                //values of each cell
-
-                var val1 = document.getElementById("11" + "_" + col).value;
-                //  alert(val1);
-                var val2 = document.getElementById("13" + "_" + col).value;
-                //   alert(val2);
-                var val3 = document.getElementById("14" + "_" + col).value;
-                //  alert(val3);
-
-                var sum = Number(val1) + Number(val2) + Number(val3);
-                //  alert(sum);
-
-                document.getElementById("15" + "_" + col).value = sum;
-                // setCookie("15" + "_" + col, sum, 100);
-
-            }
-
-            if (row == 17 || row == 18 || row == 19 || row == 20) {
-
-                var val1 = document.getElementById("17" + "_" + col).value;
-                var val2 = document.getElementById("18" + "_" + col).value;
-                var val3 = document.getElementById("19" + "_" + col).value;
-                var val4 = document.getElementById("20" + "_" + col).value;
-
-                var sum = Number(val1) + Number(val2) + Number(val3) + Number(val4);
-
-                var nextCol = Number(col) + Number(1);
-
-                document.getElementById("21" + "_" + col).value = sum;
-                //setCookie("21" + "_" + col, sum, 100);
-
-
-                document.getElementById("17" + "_" + nextCol).value = sum;
-                //setCookie("17" + "_" + nextCol, sum, 100);
-
-            }
-
-
-
-            //update avarages
-
-            //
-            for (var i = 0, row; row = table.rows[i]; i++) {
-
-                if (i == 0 || i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 16) { continue; }
-
-
-                var sum_avg = 0;
-
-                for (var j = 0, col; col = row.cells[j]; j++) {
-
-                    if (j == 0) { continue; }
-
-                    var t = col.children[0];
-
-
-                    if (j != 14) {
-
-                        sum_avg = Number(sum_avg) + Number(t.value);
-                    }
-                    else {
-
-                        sum_avg = Number(sum_avg) / Number(13);
-
-                        t.value = sum_avg.toFixed(2);
-                        // setCookie()
-                    }
-
-
-
-                }
-            }
-
-
-
-            setCookie(this.id, this.value, 100);
-
-            this.value = numberWithCommas(this.value);
-        }
-
-        //setting ids
-
         var table = document.getElementById("dashboard_table");
 
         for (var i = 0, row; row = table.rows[i]; i++) {
             for (var j = 0, col; col = row.cells[j]; j++) {
 
 
-
+                //adding a bottom line 
                 if (i == 4 || i == 10 || i == 14 || i == 20 || i == 23) { col.style.borderBottom = "1px solid #000000"; }
+
+
+                //adding bottomline and ashes color as the background
                 if (i == 11 || i == 15 || i == 21) {
                     col.style.borderBottom = "1px double #000000";
                     col.style.backgroundColor = "#dddddd";
